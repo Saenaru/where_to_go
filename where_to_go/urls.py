@@ -19,8 +19,11 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from places import views
 
 urlpatterns = [
+    path('places/', views.places_json, name='places_json'),
+    path('place/<int:place_id>/', views.place_details, name='place_details'),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
