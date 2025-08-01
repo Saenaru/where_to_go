@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminsortable2',
     'places',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'where_to_go.wsgi.application'
+
 
 
 # Database
@@ -127,7 +129,20 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': '100%',
+    'theme': 'silver',
+    'plugins': 'link image preview codesample table lists',
+    'toolbar': 'undo redo | styleselect | bold italic | '
+               'alignleft aligncenter alignright alignjustify | '
+               'bullist numlist outdent indent | link image | preview codesample',
+}
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
