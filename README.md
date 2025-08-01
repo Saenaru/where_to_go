@@ -70,8 +70,40 @@
     
 -   Добавляйте, редактируйте и удаляйте места и их изображения.
 
-## Цели проекта
+## Загрузка данных о местах
 
-  
+Проект включает команду для загрузки данных о местах из JSON-файлов.
+
+### Команда load_place
+
+Для добавления или обновления места используйте:
+
+```bash
+python manage.py load_place <URL_JSON_файла>
+```
+**Пример использования:**
+```bash
+python manage.py load_place https://raw.githubusercontent.com/devmanorg/where-to-go-places/master/places/Антикафе%20Bizone.json
+```
+
+**Требуемый формат JSON:**
+```json
+{
+  "title": "Название места",
+  "imgs": [
+    "URL_изображения1",
+    "URL_изображения2"
+  ],
+  "description_short": "Краткое описание",
+  "description_long": "Полное описание",
+  "coordinates": {
+    "lng": "долгота",
+    "lat": "широта"
+  }
+}
+```
+
+
+## Цели проекта
 
 Код написан в учебных целях — для курса по Python и веб-разработке на сайте [Devman](https://dvmn.org).
