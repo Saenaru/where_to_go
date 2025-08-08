@@ -1,23 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Place, Image
-from django.shortcuts import render
-import json
 
 def place_details(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     
-    images = Image.objects.filter(place=place).order_by('position')
+    images = place.images.order_by('position')
+    img_urls = [request.build_absolute_uri(img.image.url) for img in images if img.image]
     
-    img_urls = []
-    for img in images:
-        if img.image:
-            img_url = request.build_absolute_uri(img.image.url)
-            img_urls.append(img_url)
-        elif img.image_url:
-            img_urls.append(img.image_url)
-    
-    response_data = {
+    return JsonResponse({
         "title": place.title,
         "imgs": img_urls,
         "description_short": place.description_short or "",
@@ -26,13 +17,7 @@ def place_details(request, place_id):
             "lng": place.lng,
             "lat": place.lat
         }
-    }
-    
-    return JsonResponse(
-        response_data,
-        json_dumps_params={'ensure_ascii': False, 'indent': 2},
-        safe=False
-    )
+    }, json_dumps_params={'ensure_ascii': False})
 
 def get_places_geojson(request):
     places = Place.objects.all()
@@ -47,7 +32,7 @@ def get_places_geojson(request):
             },
             "properties": {
                 "title": place.title,
-                "placeId": f"place_{place.id}",
+                "placeId": place.id,
                 "detailsUrl": f"/place/{place.id}/"
             }
         })
@@ -55,4 +40,7 @@ def get_places_geojson(request):
     return JsonResponse({
         "type": "FeatureCollection",
         "features": features
-    })
+    }, json_dumps_params={'ensure_ascii': False})
+
+def home(request):
+    return render(request, 'index.html')
