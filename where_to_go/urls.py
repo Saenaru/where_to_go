@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from places import views
 
 urlpatterns = [
-    path('places/', views.places_json, name='places_json'),
+    path('places/', views.get_places_geojson, name='places_geojson'),  # Обновленный путь
     path('place/<int:place_id>/', views.place_details, name='place_details'),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),

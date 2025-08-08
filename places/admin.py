@@ -6,7 +6,7 @@ from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminBase
 class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     extra = 1
-    fields = ('image_url', 'image', 'preview')
+    fields = ('image', 'preview')
     readonly_fields = ('preview',)
     ordering = ('position',)
 
@@ -25,8 +25,9 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('place', 'position', 'preview')
     list_editable = ('position',)
-    fields = ('place', 'image_url', 'image', 'preview')
+    fields = ('place', 'image', 'preview')
     readonly_fields = ('preview',)
+    raw_id_fields = ('place',)
 
     def preview(self, obj):
         if obj.image:

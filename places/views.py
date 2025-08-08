@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Place, Image
+from django.shortcuts import render
 import json
 
 def place_details(request, place_id):
@@ -33,7 +34,7 @@ def place_details(request, place_id):
         safe=False
     )
 
-def places_json(request):
+def get_places_geojson(request):
     places = Place.objects.all()
     features = []
     

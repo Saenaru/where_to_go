@@ -1,7 +1,8 @@
 Django==5.2
-psycopg2-binary==2.9.10
 python-dotenv==1.1.1
 django-tinymce==4.1.0
 gunicorn==21.2.0
 whitenoise==6.9.0
 requests==2.32.4
+django-admin-sortable2==2.2.8
+pillow==11.3.0
