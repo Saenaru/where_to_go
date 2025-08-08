@@ -3,10 +3,12 @@ from django.http import JsonResponse
 from .models import Place, Image
 
 def place_details(request, place_id):
-    place = get_object_or_404(Place, id=place_id)
+    place = get_object_or_404(
+        Place.objects.prefetch_related('images'), 
+        id=place_id
+    )
     
-    images = place.images.order_by('position')
-    img_urls = [request.build_absolute_uri(img.image.url) for img in images if img.image]
+    img_urls = [request.build_absolute_uri(img.image.url) for img in place.images.all() if img.image]
     
     return JsonResponse({
         "title": place.title,
