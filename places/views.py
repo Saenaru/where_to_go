@@ -13,8 +13,8 @@ def place_details(request, place_id):
     return JsonResponse({
         "title": place.title,
         "imgs": img_urls,
-        "description_short": place.description_short or "",
-        "description_long": place.description_long or "",
+        "description_short": place.short_description or "",  # Изменено
+        "description_long": place.long_description or "",    # Изменено
         "coordinates": {
             "lng": place.lng,
             "lat": place.lat
