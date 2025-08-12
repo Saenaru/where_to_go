@@ -13,8 +13,8 @@ def place_details(request, place_id):
     return JsonResponse({
         "title": place.title,
         "imgs": img_urls,
-        "description_short": place.short_description or "",  # Изменено
-        "description_long": place.long_description or "",    # Изменено
+        "description_short": place.short_description or "",
+        "description_long": place.long_description or "",
         "coordinates": {
             "lng": place.lng,
             "lat": place.lat
@@ -39,10 +39,36 @@ def get_places_geojson(request):
             }
         })
     
-    return JsonResponse({
+    geojson_data = {
         "type": "FeatureCollection",
         "features": features
-    }, json_dumps_params={'ensure_ascii': False})
+    }
+    
+    return JsonResponse(geojson_data, json_dumps_params={'ensure_ascii': False})
 
 def home(request):
-    return render(request, 'index.html')
+    places = Place.objects.all()
+    features = []
+    
+    for place in places:
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [place.lng, place.lat]
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": place.id,
+                "detailsUrl": f"/place/{place.id}/"
+            }
+        })
+    
+    geojson_data = {
+        "type": "FeatureCollection", 
+        "features": features
+    }
+    
+    return render(request, 'index.html', {
+        'geojson_data': geojson_data
+    })
